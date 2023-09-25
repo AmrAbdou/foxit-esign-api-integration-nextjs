@@ -1,0 +1,157 @@
+
+# URL Envelope
+
+An Envelope meant to be used when sending documents via URLs
+
+## Structure
+
+`URLEnvelope`
+
+## Fields
+
+| Name | Type | Tags | Description |
+|  --- | --- | --- | --- |
+| `folderName` | `string` | Required | Name of the document(s) folder |
+| `inputType` | `string \| undefined` | Optional | Value can be either url or base64 |
+| `fileUrls` | `string[]` | Required | - |
+| `fileNames` | `string[]` | Required | - |
+| `parties` | [`Party[]`](../../doc/models/party.md) | Required | - |
+| `fields` | `unknown[] \| undefined` | Optional | - |
+| `sendNow` | `boolean \| undefined` | Optional | Use this field to send the folder to the recipient parties. Each party will then receive a unique link in their email to sign the document. The invitation mail and subject in this case will be the same as the default invitation mail setup in your account.<br>**Default**: `true` |
+| `createEmbeddedSigningSession` | `boolean` | Required | Signing session token will be generated without sending out emails to the recipients.<br>**Default**: `true` |
+| `createEmbeddedSigningSessionForAllParties` | `boolean \| undefined` | Optional | **Default**: `true` |
+| `processTextTags` | `boolean` | Required | Value can be either true or false. This field is used to determine whether Foxit eSign should parse the documents for Text Tags to convert them into Foxit eSign fields.<br>**Default**: `false` |
+| `processAcroFields` | `boolean` | Required | This field is used to determine whether Foxit eSign should parse the documents for AcroFields to convert them into Foxit eSign fields.<br>**Default**: `false` |
+| `signInSequence` | `boolean \| undefined` | Optional | This field is used to determine whether recipients will sign the envelope documents in a sequence. If false, then all the recipients receive invitation email simultaneously. When true, then each recipient receives invitation email successively after previous recipient completes the required task, like signing the documents or filling fields, etc.<br>**Default**: `false` |
+| `inPersonEnable` | `boolean \| undefined` | Optional | This field is used to initiate the in-person signing process which can be easily completed on any device in a matter of minutes and avoids email based signatures where required. If false, then all the recipients receive the invitation email simultaneously. When true, then in-person administrator receives an invitation email to initiate the signing process for the signer.<br>**Default**: `false` |
+| `customField1` | [`CustomField \| undefined`](../../doc/models/custom-field.md) | Optional | Maximum of two custom fields can be passed to Foxit eSign via API that are stored at the folder level. Webhook response includes these custom field. |
+| `fixRecipientParties` | `boolean \| undefined` | Optional | If true, then in the embedded sending view cannot change the parties for the envelope which are already added as a part of this API request.<br>**Default**: `false` |
+| `fixDocuments` | `boolean \| undefined` | Optional | If true, then in the embedded sending cannot change the documents for the envelope which are already added as a part of this API request.<br>**Default**: `false` |
+| `sendSuccessUrl` | `string \| undefined` | Optional | Enter the absolute URL for the landing page, which the signer will be redirected to after successfully sending the folder in the embedded sending view. |
+| `sendErrorUrl` | `string \| undefined` | Optional | Enter the absolute URL for the landing page, which the signer will be redirected to if error comes during sending the folder in the embedded sending view. |
+| `createEmbeddedSendingSession` | `boolean \| undefined` | Optional | If set to true, it will generate an embedded token to open the document preparing view of Foxit eSign.<br>**Default**: `false` |
+| `embeddedSignersEmailIds` | `string[] \| undefined` | Optional | An array of email ids of recipients for whom an embedded signing session needs to be created. The email ids from the recipient parties added in the parties list. |
+| `signSuccessUrl` | `string \| undefined` | Optional | Enter the absolute URL for the signers who will be redirected to after successfully signing in embedded signing view. |
+| `signDeclineUrl` | `string \| undefined` | Optional | Enter the absolute URL for the signers who will be redirected to if declines to sign in embedded signing view. |
+| `signLaterUrl` | `string \| undefined` | Optional | Enter the absolute URL for the signers who will be redirected to if chooses to sign later in embedded signing view. |
+| `signErrorUrl` | `string \| undefined` | Optional | Enter the absolute URL for the signers who will be redirected to if error comes during signing the document in embedded signing view. |
+| `allowSendNowAndEmbeddedSigningSession` | `boolean \| undefined` | Optional | If set as true, Foxit eSign will send unique signing link to each recipient. This is ONLY applicable when parameters sendNow and createEmbeddedSigningSession is true.<br>**Default**: `false` |
+| `allowAdvancedEmailValidation` | `boolean \| undefined` | Optional | Validate the email address of the parties when set as true.<br>**Default**: `false` |
+| `signSuccessUrlAllParties` | `boolean \| undefined` | Optional | If set as true, signer will be redirected to URL provided in the signSuccessUrl after successfully signing. This is only applicable when the sendNow is true.<br>**Default**: `false` |
+| `emailTemplateId` | `number \| undefined` | Optional | Pass the email template Id to send the email templates other than default email templates. |
+| `signerInstructionId` | `number \| undefined` | Optional | Pass the instruction Id to send signer instructions other than the default signer instructions |
+| `confirmationInstructionId` | `string \| undefined` | Optional | Pass the confirmation instruction id to send confirmation instructions other than the default confirmation instructions. |
+| `themeColor` | `string \| undefined` | Optional | Enter the CSS value to set the theme color. |
+| `sessionExpire` | `boolean \| undefined` | Optional | Set as true to initiate the expire of the embedded signing session.<br>**Default**: `false` |
+| `expiry` | `number \| undefined` | Optional | Required if sessionExpire is true. Enter duration in milliseconds of the expiry on the embedded signing session. |
+| `dependentFields` | [`DependentField \| undefined`](../../doc/models/dependent-field.md) | Optional | - |
+| `metadata` | `unknown \| undefined` | Optional | This should be in key value pair. Maximum 1000 key value pairs are allowed. |
+| `senderEmail` | `string \| undefined` | Optional | enter email of another user in your account which will be used for sending this document(s) folder to the recipient parties. |
+| `hideAddMeButton` | `boolean \| undefined` | Optional | If true, it will hide the "Add Me" button on Recipient Parties in an embedded sending session.<br>**Default**: `false` |
+| `hideAddNewButton` | `boolean \| undefined` | Optional | If true, it will hide the "Add New" button on Recipient Parties in an embedded sending session.<br>**Default**: `false` |
+| `hideAddGroupButton` | `boolean \| undefined` | Optional | If true, it will hide the "Add Group" button on Recipient Parties in an embedded sending session.<br>**Default**: `false` |
+| `hideFieldNameForRecipients` | `boolean \| undefined` | Optional | Hide field names for Recipients for Data Entry Fields and Advanced Fields. (Except Radio button, Checkbox, Image and Hyperlink).<br>**Default**: `false` |
+| `hideCheckboxBorder` | `boolean \| undefined` | Optional | Borders of Checkbox will be hidden in the executed documents.<br>**Default**: `false` |
+| `hideSignerSelectOption` | `boolean \| undefined` | Optional | If true, it will hide the "Existing Signer Name/Email" input box on Recipient Parties in an embedded sending session.<br>**Default**: `false` |
+| `hideSignerActions` | `boolean \| undefined` | Optional | If true, it will hide the signer "edit", "change" and "remove" actions on Recipient Parties in an embedded sending session.<br>**Default**: `false` |
+| `hideSenderName` | `boolean \| undefined` | Optional | If true, it will hide the sender name on Recipient Parties in an embedded sending session.<br>**Default**: `false` |
+| `hideFolderName` | `boolean \| undefined` | Optional | If true, it will hide the folder name on navigation in both embedded sessions.<br>**Default**: `false` |
+| `hideDocumentsName` | `boolean \| undefined` | Optional | If true, it will hide the document name in both embedded sessions.<br>**Default**: `false` |
+| `hideDeclineToSign` | `boolean \| undefined` | Optional | If true, it will hide the option of "Decline to Sign" for the signer.<br>**Default**: `false` |
+| `hideMoreAction` | `boolean \| undefined` | Optional | If true, it will hide "More Actions" button in sending/signing session. In case of "Send Now": true, it will not hide anything.<br>**Default**: `false` |
+| `hideSendButton` | `boolean \| undefined` | Optional | If true, it will hide the Send button in the embedded sending session.<br>**Default**: `false` |
+| `hideNextRequiredFieldbtn` | `boolean \| undefined` | Optional | **Default**: `false` |
+
+## Example (as JSON)
+
+```json
+{
+  "folderName": "Foxit eSign Contract.pdf",
+  "inputType": "url",
+  "fileUrls": [
+    "https://www.esigngenie.com/wp-content/uploads/2022/04/Orange.pdf"
+  ],
+  "fileNames": [
+    "Foxit eSign Contract.pdf"
+  ],
+  "processTextTags": false,
+  "processAcroFields": false,
+  "parties": [
+    {
+      "firstName": "Peter",
+      "lastName": "Parker",
+      "emailId": "spiderman@demo.com",
+      "permission": "FILL_FIELDS_AND_SIGN",
+      "sequence": 1,
+      "allowNameChange": "false"
+    }
+  ],
+  "fields": [
+    {
+      "type": "text",
+      "name": "Signer Name",
+      "x": 108,
+      "y": 500,
+      "width": 60,
+      "height": 20,
+      "documentNumber": 1,
+      "pageNumber": 1,
+      "tabOrder": 1,
+      "party": 1,
+      "tooltip": "",
+      "required": true,
+      "characterLimit": 100,
+      "fontSize": 12,
+      "fontColor": "#000000",
+      "hideFieldNameForRecipients": false
+    },
+    {
+      "type": "date",
+      "x": 336,
+      "y": 500,
+      "width": 60,
+      "height": 20,
+      "documentNumber": 1,
+      "pageNumber": 1,
+      "tabOrder": 1,
+      "party": 1,
+      "name": "Date",
+      "required": true,
+      "fontSize": 12,
+      "dateFormat": "MM-DD-YYYY"
+    },
+    {
+      "type": "signature",
+      "x": 108,
+      "y": 565,
+      "width": 60,
+      "height": 20,
+      "documentNumber": 1,
+      "pageNumber": 1,
+      "party": 1,
+      "required": true
+    },
+    {
+      "type": "date",
+      "x": 336,
+      "y": 565,
+      "width": 60,
+      "height": 20,
+      "documentNumber": 1,
+      "pageNumber": 1,
+      "tabOrder": 1,
+      "party": 1,
+      "name": "Date Signed",
+      "required": true,
+      "fontSize": 12,
+      "dateFormat": "MM-DD-YYYY",
+      "readOnly": true,
+      "systemField": true
+    }
+  ],
+  "sendNow": true,
+  "createEmbeddedSigningSession": true,
+  "createEmbeddedSigningSessionForAllParties": true
+}
+```
+
