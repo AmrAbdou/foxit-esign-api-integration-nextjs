@@ -6,24 +6,25 @@ import {
   TemplatesAPIController,
 } from '../../foxit_sdk/src/index.ts'
 import { cookies } from 'next/headers'
+import { redirect } from 'next/navigation'
 
-export default function Admin() {
+export default function Manager() {
   
-  // Create Contract Form Handler
+  // Create contract form handler
   async function createEnvelope (data:formSubmission) {
     "use server"
 
-    //Get the Entered Template ID
+    // Get the entered template ID
     const ProvidedTemplateID = data.get("templateId")?.valueOf()
 
-    // Intitiante the API Client Using Foxit SDK
+    // Create an SDK Client instance
     const client = new Client({
       timeout: 0,
       environment: 'US Server',
       accessToken: process.env.FOXIT_ACCESS_TOKEN
     });
 
-    // Build the Request Body
+    // Build the request body
     const templatesAPIController = new TemplatesAPIController(client);
     const bodyTemplateIds: number[] = [ProvidedTemplateID];
     const bodyParties: Party[] = [];
@@ -66,7 +67,7 @@ export default function Admin() {
     };
 
 
-    // Execute the API Request
+    // Execute the API request
     try {
       const { result, ...httpResponse } = await templatesAPIController.createEnvelopeFromTemplate(body);
       const { statusCode, headers } = httpResponse;
@@ -76,7 +77,7 @@ export default function Admin() {
       console.log('result:')
       console.log(result)
 
-      // Save Envelope Data As Cookies
+      // Save envelope data as cookies
       cookies().set('foxitNewEnvelopeId', result.folder.envelopeId)
       cookies().set('foxitEmbeddedSigningLink1', result.embeddedSigningSessions[0].embeddedSessionURL)
       cookies().set('foxitEmbeddedSigningLink2', result.embeddedSigningSessions[1].embeddedSessionURL)
@@ -89,13 +90,15 @@ export default function Admin() {
         console.log(errors)
       }
     }
+    // Refresh the page
+    redirect('http://localhost:3000/manager/', 'replace')
   }
 
 
-  // Get the Manager's Embedded Signing Link
+  // Get the manager's embedded signing link
   let EmbeddedSigningLink = cookies().get('foxitEmbeddedSigningLink1')?.value
 
-  // Render the Page
+  // Render the page
   return (
     <main className="bg-neutral-900 flex min-h-screen flex-col items-center justify-between p-10">
     <div className="w-4/5 bg-lime-950 p-10">
@@ -106,7 +109,7 @@ export default function Admin() {
           <h2 className="text-2xl font-bold mb-4">John Doe</h2>
           <img
             src="https://placehold.co/150x150"
-            alt="Admin Image"
+            alt="Manager Image"
             className="w-full rounded-full"
           />
         </div>

@@ -10,20 +10,20 @@ import { redirect } from 'next/navigation'
 export default function Employee() {
 
   /*
-  * Add Receivng Party Name Form Submit Handler
+  * Add receiving party name form submit handler
   */
-  async function addReceivngPartyName (data:formSubmission) {
+  async function addReceivingPartyName (data:formSubmission) {
     "use server"
-    const partyName = data.get("receivngPartyName")?.valueOf()
+    const partyName = data.get("receivingPartyName")?.valueOf()
 
-    // Intitiante the API Client Using Foxit SDK
+    // Create an SDK Client instance
     const client = new Client({
       timeout: 0,
       environment: 'US Server',
       accessToken: process.env.FOXIT_ACCESS_TOKEN
     });
     
-    // Get the Envelope ID from the Cookies
+    // Get the envelope ID from the cookies
     let signingEnvelopeId = cookies().get('foxitNewEnvelopeId')?.value
 
     const envelopesAPIController = new EnvelopesAPIController(client);
@@ -45,25 +45,25 @@ export default function Employee() {
         console.log(errors)
       }
     }
-    // Refresh Page
+    // Refresh the page
     redirect('http://localhost:3000/employee/', 'replace')
   }
 
   /*
-  * Add Contract Date Form Submit Handler
+  * Add contract date form submit handler
   */
   async function addContractDate (data:formSubmission) {
     "use server"
     const contractDate = data.get("contractDate")?.valueOf()
 
-    // Intitiante the API Client Using Foxit SDK
+    // Intitiante the API client using the Foxit SDK
     const client = new Client({
       timeout: 0,
       environment: 'US Server',
       accessToken: process.env.FOXIT_ACCESS_TOKEN
     })
     
-    // Get the Envelope ID from the Cookies
+    // Get the envelope ID from the cookies
     let signingEnvelopeId = cookies().get('foxitNewEnvelopeId')?.value
 
     const envelopesAPIController = new EnvelopesAPIController(client);
@@ -85,15 +85,15 @@ export default function Employee() {
         console.log(errors)
       }
     }
-    // Refresh Page
+    // Refresh the page
     redirect('http://localhost:3000/employee/', 'replace')
   }
 
-  // Get the Embedded Signing Session Link from the Cookies
+  // Get the embedded signing session link from the cookies
   let EmbeddedSigningLink = cookies().get('foxitEmbeddedSigningLink2')?.value
 
   /*
-  * Render the Page
+  * Render the page
   */
   return (
     <main className="bg-neutral-900 flex min-h-screen flex-col items-center justify-between p-20">
@@ -105,7 +105,7 @@ export default function Employee() {
           <h2 className="text-2xl font-bold mb-4">John Doe</h2>
           <img
             src="https://placehold.co/150x150"
-            alt="Admin Image"
+            alt="Employee Image"
             className="w-full rounded-full"
           />
         </div>
@@ -114,10 +114,10 @@ export default function Employee() {
 
         <div className="w-2/4 p-4">
           <div className="flex-col">
-            <form action={addReceivngPartyName} className=" flex flex-col gap-2">
+            <form action={addReceivingPartyName} className=" flex flex-col gap-2">
             <input
               type="text"
-              name="receivngPartyName"
+              name="receivingPartyName"
               className="w-full p-2 border rounded-l-md bg-slate-300 text-teal-900"
               placeholder="Add Receiving Party Name..."
             />
