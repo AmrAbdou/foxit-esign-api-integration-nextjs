@@ -56,7 +56,7 @@ export default function Employee() {
     "use server"
     const contractDate = data.get("contractDate")?.valueOf()
 
-    // Intitiante the API client using the Foxit SDK
+    // Create an SDK Client instance
     const client = new Client({
       timeout: 0,
       environment: 'US Server',
